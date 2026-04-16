@@ -10,17 +10,35 @@ export default {
         sans: ['Sora', 'sans-serif'],
         display: ['Playfair Display', 'serif'],
       },
+
       colors: {
         slate: {
           950: '#030712',
         },
+
+        // ✅ YOUR ORANGE PALETTE ADDED HERE
+        orange: {
+          50: "#fef6e6",
+          100: "#feedcd",
+          200: "#fddb9b",
+          300: "#fcc969",
+          400: "#fbb637",
+          500: "#faa405",
+          600: "#c88304",
+          700: "#966303",
+          800: "#644202",
+          900: "#322101",
+          950: "#231701",
+        },
       },
+
       animation: {
         blob: 'blob 7s infinite',
         'fade-in-up': 'fadeInUp 0.6s ease-out',
         'slide-in-left': 'slideInLeft 0.6s ease-out',
         float: 'float 3s ease-in-out infinite',
       },
+
       keyframes: {
         blob: {
           '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
