@@ -43,15 +43,24 @@ export default function Contact() {
     e.preventDefault()
     setIsLoading(true)
 
-    // Simulate form submission
-    setTimeout(() => {
-      setIsLoading(false)
+    try {
+      const res = await fetch('http://localhost:3000/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+
+      if (!res.ok) throw new Error('Failed')
+
       setSubmitted(true)
       setFormData({ name: '', email: '', subject: '', message: '' })
-
-      // Reset success message after 3 seconds
       setTimeout(() => setSubmitted(false), 3000)
-    }, 1500)
+
+    } catch (err) {
+      alert('Something went wrong. Please try again or email me directly.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const contactMethods = [

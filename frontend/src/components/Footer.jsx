@@ -1,5 +1,9 @@
+import { useState } from 'react'
+
 export default function Footer() {
   const currentYear = new Date().getFullYear()
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState(null)
 
   const footerLinks = [
     { label: 'Home', href: '#home' },
@@ -9,6 +13,30 @@ export default function Footer() {
     { label: 'Blog', href: '#blog' },
     { label: 'Contact', href: '#contact' },
   ]
+  
+  const handleSubscribe = async (e) => {
+    e.preventDefault()
+    setStatus('loading')
+
+    try {
+      const res = await fetch('http://localhost:3000/newsletter/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+
+      if (res.status === 409) {
+        setStatus('duplicate')
+      } else if (!res.ok) {
+        setStatus('error')
+      } else {
+        setStatus('success')
+        setEmail('')
+      }
+    } catch {
+      setStatus('error')
+    }
+  }
 
   return (
     <footer className="w-full bg-[#0b0b0f] border-t border-yellow-500/10 py-12">
@@ -48,22 +76,40 @@ export default function Footer() {
           {/* Newsletter */}
           <div>
             <h4 className="text-white font-semibold mb-4">Stay Updated</h4>
-
             <p className="text-slate-400 text-sm mb-4">
               Subscribe to my newsletter for latest updates.
             </p>
 
-            <div className="flex gap-2">
-              <input
-                type="email"
-                placeholder="your@email.com"
-                className="flex-1 px-4 py-2 bg-white/10 border border-yellow-500/20 rounded-lg text-white text-sm placeholder-slate-500 focus:outline-none focus:border-yellow-500"
-              />
+            <form onSubmit={handleSubscribe}>
+              <div className="flex gap-2">
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  disabled={status === 'loading' || status === 'success'}
+                  className="flex-1 px-4 py-2 bg-white/10 border border-yellow-500/20 rounded-lg text-white text-sm placeholder-slate-500 focus:outline-none focus:border-yellow-500 disabled:opacity-50"
+                />
+                <button
+                  type="submit"
+                  disabled={status === 'loading' || status === 'success'}
+                  className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-black rounded-lg font-medium transition-colors duration-300 text-sm disabled:opacity-50"
+                >
+                  {status === 'loading' ? '...' : 'Subscribe'}
+                </button>
+              </div>
 
-              <button className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-black rounded-lg font-medium transition-colors duration-300 text-sm">
-                Subscribe
-              </button>
-            </div>
+              {status === 'success' && (
+                <p className="text-green-400 text-xs mt-2">✓ Subscribed! Check your inbox.</p>
+              )}
+              {status === 'duplicate' && (
+                <p className="text-yellow-400 text-xs mt-2">You're already subscribed!</p>
+              )}
+              {status === 'error' && (
+                <p className="text-red-400 text-xs mt-2">Something went wrong. Try again.</p>
+              )}
+            </form>
           </div>
 
         </div>
