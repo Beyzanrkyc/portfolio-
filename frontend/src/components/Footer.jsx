@@ -6,6 +6,7 @@ export default function Footer() {
     { label: 'About', href: '#about' },
     { label: 'Projects', href: '#projects' },
     { label: 'Skills', href: '#skills' },
+    { label: 'Blog', href: '#blog' },
     { label: 'Contact', href: '#contact' },
   ]
 
@@ -15,7 +16,7 @@ export default function Footer() {
       {/* FULL WIDTH CONTENT */}
       <div className="w-full px-8">
 
-        <div className="grid md:grid-cols-3 gap-8 mb-12 w-620">
+        <div className="grid md:grid-cols-3 gap-8 mb-12 w-full">
 
           {/* Branding */}
           <div>
@@ -70,7 +71,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-yellow-500/10 pt-8">
 
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 w-620">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 w-full">
 
             <p className="text-slate-400 text-sm">
               © {currentYear} Foxic Universe. All rights reserved.

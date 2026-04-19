@@ -10,6 +10,7 @@ export default function Navbar() {
     { label: 'About', path: '/about' },
     { label: 'Projects', path: '/projects' },
     { label: 'Skills', path: '/skills' },
+    { label: 'Blog', path: '/blog' },
     { label: 'Contact', path: '/contact' },
   ]
 
@@ -18,7 +19,7 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 w-full z-50 bg-[#0b0b0f]/80 backdrop-blur-md border-b border-yellow-500/10">
 
-      <div className="w-620 px-8">
+      <div className="w-full px-12">
         <div className="flex items-center justify-between h-20">
 
           {/* Logo */}
@@ -26,7 +27,7 @@ export default function Navbar() {
             <img
               src="/rimberio.png"
               alt="Logo"
-              className="h-35 w-80 object-contain hover:opacity-80 transition-opacity"
+              className="h-32 md:h-36 w-auto object-contain hover:opacity-80 transition-opacity"
             />
           </Link>
 
@@ -80,7 +81,6 @@ export default function Navbar() {
       {isMenuOpen && (
         <div className="lg:hidden bg-[#0b0b0f]/95 backdrop-blur-md border-t border-yellow-500/10 animate-slide-in-left">
           <div className="px-4 pt-2 pb-4 space-y-2">
-
             {navItems.map((item) => (
               <Link
                 key={item.path}
@@ -95,7 +95,6 @@ export default function Navbar() {
                 {item.label}
               </Link>
             ))}
-
           </div>
         </div>
       )}
