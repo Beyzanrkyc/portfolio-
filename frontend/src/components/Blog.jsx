@@ -1,15 +1,35 @@
 import { useEffect, useState, useRef } from 'react'
 import { Search, Calendar, Clock, Tag, ArrowRight, TrendingUp, Code, Brain, Lightbulb } from 'lucide-react'
 
+const API = 'http://localhost:3000'
+
 export default function Blog() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [isVisible, setIsVisible] = useState(false)
   const [filteredPosts, setFilteredPosts] = useState([])
+  const [blogPosts, setBlogPosts] = useState([])
+  const [loading, setLoading] = useState(true)
   const articlesRef = useRef(null)
 
   useEffect(() => {
     setIsVisible(true)
+    fetch(`${API}/blog`)
+      .then(res => res.json())
+      .then(data => {
+        // Map backend fields to what your UI expects
+        const mapped = data.map(post => ({
+          ...post,
+          excerpt: post.summary,
+          readTime: post.readTime || 5,
+          image: '📝',
+          category: post.tags?.[0] || 'Insights',
+          featured: post.featured || false,
+        }))
+        setBlogPosts(mapped)
+        setLoading(false)
+      })
+      .catch(() => setLoading(false))
   }, [])
 
   const categories = [
@@ -19,124 +39,23 @@ export default function Blog() {
     { name: 'Insights', color: 'pink', icon: Lightbulb }
   ]
 
-  const blogPosts = [
-    {
-      id: 1,
-      title: 'Building Intelligent Healthcare Systems with AI',
-      excerpt: 'Exploring how machine learning and neural networks can revolutionize healthcare diagnosis and patient monitoring.',
-      content: 'Deep dive into the architecture and implementation of AI-powered healthcare systems...',
-      category: 'AI & ML',
-      date: '2025-03-15',
-      readTime: 8,
-      image: '🏥',
-      tags: ['AI', 'Healthcare', 'Python', 'TensorFlow'],
-      featured: true
-    },
-    {
-      id: 2,
-      title: 'React Performance Optimization: Beyond the Basics',
-      excerpt: 'Advanced techniques for optimizing React applications for production-level performance.',
-      content: 'Learn memoization, code splitting, lazy loading, and more...',
-      category: 'Web Dev',
-      date: '2025-03-10',
-      readTime: 12,
-      image: '⚡',
-      tags: ['React', 'Performance', 'JavaScript'],
-      featured: false
-    },
-    {
-      id: 3,
-      title: 'The Future of AI: Multimodal Models and Beyond',
-      excerpt: 'Analyzing the latest breakthroughs in multimodal AI and what it means for the future.',
-      content: 'Understanding vision-language models, audio processing, and unified AI architectures...',
-      category: 'AI & ML',
-      date: '2025-03-05',
-      readTime: 10,
-      image: '🤖',
-      tags: ['AI', 'Multimodal', 'Deep Learning'],
-      featured: true
-    },
-    {
-      id: 4,
-      title: 'Full-Stack Development: From Backend to Frontend',
-      excerpt: 'A comprehensive guide to building end-to-end applications with Django and React.',
-      content: 'Setting up APIs, database design, state management, and deployment...',
-      category: 'Web Dev',
-      date: '2025-02-28',
-      readTime: 15,
-      image: '🔧',
-      tags: ['Django', 'React', 'Full-Stack', 'PostgreSQL'],
-      featured: false
-    },
-    {
-      id: 5,
-      title: 'Computer Vision: From Theory to Real-World Applications',
-      excerpt: 'Practical implementation of CNN-based computer vision systems for real-world use cases.',
-      content: 'Building image classification, object detection, and facial recognition systems...',
-      category: 'AI & ML',
-      date: '2025-02-20',
-      readTime: 11,
-      image: '👁️',
-      tags: ['Computer Vision', 'CNN', 'OpenCV'],
-      featured: false
-    },
-    {
-      id: 6,
-      title: 'Lessons Learned: Building MediFlow',
-      excerpt: 'Key insights from developing an AI-powered healthcare workflow platform.',
-      content: 'Architecture decisions, challenges faced, and solutions implemented...',
-      category: 'Insights',
-      date: '2025-02-15',
-      readTime: 9,
-      image: '💡',
-      tags: ['Project', 'Architecture', 'Lessons'],
-      featured: true
-    },
-    {
-      id: 7,
-      title: 'Understanding Transformers: The Architecture Behind Modern AI',
-      excerpt: 'A deep dive into transformer architecture that powers models like GPT and BERT.',
-      content: 'Attention mechanisms, positional encoding, and how it all works together...',
-      category: 'AI & ML',
-      date: '2025-02-10',
-      readTime: 13,
-      image: '🧠',
-      tags: ['Transformers', 'NLP', 'Deep Learning'],
-      featured: false
-    },
-    {
-      id: 8,
-      title: 'Building Scalable APIs with FastAPI',
-      excerpt: 'Best practices for building high-performance, production-ready APIs.',
-      content: 'Async/await, dependency injection, validation, and deployment strategies...',
-      category: 'Web Dev',
-      date: '2025-02-05',
-      readTime: 10,
-      image: '🚀',
-      tags: ['FastAPI', 'Python', 'APIs'],
-      featured: false
-    }
-  ]
-
   useEffect(() => {
     let filtered = blogPosts
 
-    // Filter by category
     if (selectedCategory !== 'All') {
       filtered = filtered.filter(post => post.category === selectedCategory)
     }
 
-    // Filter by search query
     if (searchQuery.trim()) {
       filtered = filtered.filter(post =>
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+        post.excerpt?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.tags?.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
       )
     }
 
     setFilteredPosts(filtered)
-  }, [searchQuery, selectedCategory])
+  }, [searchQuery, selectedCategory, blogPosts])
 
   const featuredPost = blogPosts.find(post => post.featured)
 
@@ -144,6 +63,12 @@ export default function Blog() {
     const date = new Date(dateString)
     return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
   }
+
+  if (loading) return (
+    <section className="relative min-h-screen flex items-center justify-center">
+      <p className="text-slate-400">Loading articles...</p>
+    </section>
+  )
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-6 lg:px-24 py-20 mt-20">

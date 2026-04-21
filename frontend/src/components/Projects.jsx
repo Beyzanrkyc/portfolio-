@@ -1,75 +1,23 @@
 import { useEffect, useState } from "react";
 import { ExternalLink, Github, Code2, Zap, Award, TrendingUp } from "lucide-react";
 
+const API = 'http://localhost:3000'
+
 export default function Projects() {
   const [isVisible, setIsVisible] = useState(false);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setIsVisible(true);
+    fetch(`${API}/projects`)
+      .then(res => res.json())
+      .then(data => {
+        setProjects(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, []);
-
-  const projects = [
-    {
-      title: "MediFlow - AI Healthcare Workflow System",
-      desc: "An intelligent healthcare workflow management system powered by AI. Automates patient data processing, appointment scheduling, and medical record analysis using machine learning.",
-      fullDesc: "Built with React, Django, PostgreSQL, and TensorFlow. Features real-time data processing, secure patient information handling, and AI-driven insights for healthcare professionals.",
-      tech: ["React", "Django", "PostgreSQL", "TensorFlow", "Python"],
-      link: "#",
-      github: "#",
-      featured: true,
-      image: "🏥"
-    },
-    {
-      title: "AI Resume Analyzer",
-      desc: "Intelligent resume analysis tool that uses NLP and machine learning to evaluate resumes and provide actionable feedback.",
-      fullDesc: "Processes resumes in multiple formats, extracts key information, scores applicants based on job requirements, and generates detailed improvement suggestions.",
-      tech: ["React", "Python", "Django", "OpenAI", "NLP"],
-      link: "#",
-      github: "#",
-      featured: true,
-      image: "📄"
-    },
-    {
-      title: "E-Commerce Platform",
-      desc: "Full-stack online store with secure payments, inventory management, and admin dashboard for store operations.",
-      fullDesc: "Complete e-commerce solution with user authentication, product catalog, shopping cart, payment processing, order tracking, and admin controls.",
-      tech: ["React", "Node.js", "PostgreSQL", "Stripe", "Docker"],
-      link: "#",
-      github: "#",
-      featured: false,
-      image: "🛒"
-    },
-    {
-      title: "ChatGPT Clone",
-      desc: "Real-time AI chat application with streaming responses, conversation history, and multiple AI models support.",
-      fullDesc: "Built with React for the frontend and Node.js backend. Integrates with OpenAI API for real-time streaming responses and maintains conversation context.",
-      tech: ["React", "Node.js", "OpenAI API", "Tailwind", "WebSocket"],
-      link: "#",
-      github: "#",
-      featured: false,
-      image: "💬"
-    },
-    {
-      title: "Facial Expression Recognition System",
-      desc: "CNN-based deep learning project for real-time facial expression detection and emotion classification.",
-      fullDesc: "Uses convolutional neural networks trained on facial expression datasets. Provides real-time emotion detection with high accuracy.",
-      tech: ["Python", "TensorFlow", "OpenCV", "Keras", "NumPy"],
-      link: "#",
-      github: "#",
-      featured: false,
-      image: "😊"
-    },
-    {
-      title: "Multi-Agent Simulation Platform",
-      desc: "Distributed system simulating multiple autonomous agents interacting in a shared environment with complex behaviors.",
-      fullDesc: "Educational platform demonstrating multi-agent systems, reinforcement learning, and emergent behavior patterns in simulated environments.",
-      tech: ["Python", "PyTorch", "Matplotlib", "Numpy", "Reinforcement Learning"],
-      link: "#",
-      github: "#",
-      featured: false,
-      image: "🤖"
-    }
-  ];
 
   const coreCompetencies = [
     { title: 'Full-Stack Development', icon: Code2 },
@@ -78,8 +26,26 @@ export default function Projects() {
     { title: 'Problem Solving', icon: Award }
   ]
 
-  const featuredProjects = projects.filter(p => p.featured);
-  const otherProjects = projects.filter(p => !p.featured);
+  // Map backend fields to what your UI expects
+  const mappedProjects = projects.map(p => ({
+    ...p,
+    tech: p.technologies || [],
+    link: p.liveUrl || '#',
+    github: p.githubUrl || '#',
+    image: '🚀', // default emoji, you can add an image field later
+    featured: p.featured || false,
+    desc: p.description,
+    fullDesc: p.description,
+  }))
+
+  const featuredProjects = mappedProjects.filter(p => p.featured);
+  const otherProjects = mappedProjects.filter(p => !p.featured);
+
+  if (loading) return (
+    <section className="relative min-h-screen flex items-center justify-center">
+      <p className="text-slate-400">Loading projects...</p>
+    </section>
+  )
 
   return (
     <section 
