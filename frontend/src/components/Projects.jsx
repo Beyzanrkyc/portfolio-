@@ -26,14 +26,12 @@ export default function Projects() {
     { title: 'Problem Solving', icon: Award }
   ]
 
-  // Map backend fields to what your UI expects
   const mappedProjects = projects.map(p => ({
     ...p,
     tech: p.technologies || [],
     link: p.liveUrl || '#',
     github: p.githubUrl || '#',
-    image: '🚀', // default emoji, you can add an image field later
-    featured: p.featured || false,
+    image: '🚀',
     desc: p.description,
     fullDesc: p.description,
   }))
@@ -48,7 +46,7 @@ export default function Projects() {
   )
 
   return (
-    <section 
+    <section
       className="relative min-h-screen flex items-start justify-center overflow-hidden px-6 lg:px-24"
       style={{ paddingTop: '200px' }}
     >
@@ -61,27 +59,22 @@ export default function Projects() {
 
         {/* HEADER */}
         <div
-          className={`mb-20 transition-all duration-1000 ${
-            isVisible
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-10"
-          }`} 
+          className={`mb-20 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
           style={{ marginBottom: '6rem' }}
         >
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
             My <span className="text-yellow-400">Projects</span>
           </h1>
-
           <p className="text-lg text-slate-300 leading-relaxed max-w-2xl">
-            A selection of projects where I combine full-stack development with AI 
-            to build scalable and impactful applications. From healthcare automation 
-            to intelligent resume analysis, each project demonstrates my expertise 
+            A selection of projects where I combine full-stack development with AI
+            to build scalable and impactful applications. From healthcare automation
+            to intelligent resume analysis, each project demonstrates my expertise
             in modern technologies.
           </p>
         </div>
 
         {/* CORE COMPETENCIES */}
-        <div 
+        <div
           className={`mb-24 transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
           style={{ marginBottom: '6rem' }}
         >
@@ -107,74 +100,72 @@ export default function Projects() {
         </div>
 
         {/* FEATURED PROJECTS */}
-        <div style={{ marginBottom: '6rem' }}>
-          <h2 className="text-3xl font-bold text-white mb-10">Featured Projects</h2>
-          <div className="space-y-0">
-            {featuredProjects.map((project, i) => (
-              <div
-                key={i}
-                className={`group relative bg-gradient-to-br from-yellow-500/10 via-transparent to-yellow-400/5 border border-yellow-500/20 rounded-2xl overflow-hidden transition-all duration-1000 hover:border-yellow-400/40 hover:shadow-lg hover:shadow-yellow-500/10 ${
-                  isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-10"
-                }`}
-                style={{ transitionDelay: `${i * 200}ms`, marginBottom: '6rem' }}
-              >
-                {/* FEATURED BADGE */}
-                <div className="absolute top-6 right-6 z-20">
-                  <div className="flex items-center gap-2 px-4 py-2 bg-yellow-500/20 border border-yellow-400/50 rounded-full">
-                    <span className="text-yellow-400 font-semibold text-sm">⭐ Featured</span>
-                  </div>
-                </div>
-
-                <div className="p-8 md:p-12">
-                  {/* TITLE & IMAGE */}
-                  <div className="flex items-start gap-6 mb-6">
-                    <div className="text-5xl flex-shrink-0">{project.image}</div>
-                    <div className="flex-1">
-                      <h3 className="text-3xl font-bold text-white mb-2 group-hover:text-yellow-300 transition-colors">
-                        {project.title}
-                      </h3>
-                      <p className="text-slate-300 text-lg leading-relaxed">
-                        {project.fullDesc}
-                      </p>
+        {featuredProjects.length > 0 && (
+          <div style={{ marginBottom: '6rem' }}>
+            <h2 className="text-3xl font-bold text-white mb-10">Featured Projects</h2>
+            <div className="space-y-0">
+              {featuredProjects.map((project, i) => (
+                <div
+                  key={project.id}
+                  className={`group relative bg-gradient-to-br from-yellow-500/10 via-transparent to-yellow-400/5 border border-yellow-500/20 rounded-2xl overflow-hidden transition-all duration-1000 hover:border-yellow-400/40 hover:shadow-lg hover:shadow-yellow-500/10 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+                  style={{ transitionDelay: `${i * 200}ms`, marginBottom: '6rem' }}
+                >
+                  {/* FEATURED BADGE */}
+                  <div className="absolute top-6 right-6 z-20">
+                    <div className="flex items-center gap-2 px-4 py-2 bg-yellow-500/20 border border-yellow-400/50 rounded-full">
+                      <span className="text-yellow-400 font-semibold text-sm">⭐ Featured</span>
                     </div>
                   </div>
 
-                  {/* TECH TAGS */}
-                  <div className="flex flex-wrap gap-2 mb-8">
-                    {project.tech.map((t, idx) => (
-                      <span
-                        key={idx}
-                        className="inline-block px-4 py-2 bg-yellow-500/20 border border-yellow-400/30 rounded-full text-yellow-300 text-sm font-medium"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
+                  <div className="p-8 md:p-12">
+                    {/* TITLE & IMAGE */}
+                    <div className="flex items-start gap-6 mb-6">
+                      <div className="text-5xl flex-shrink-0">{project.image}</div>
+                      <div className="flex-1">
+                        <h3 className="text-3xl font-bold text-white mb-2 group-hover:text-yellow-300 transition-colors">
+                          {project.title}
+                        </h3>
+                        <p className="text-slate-300 text-lg leading-relaxed">
+                          {project.fullDesc}
+                        </p>
+                      </div>
+                    </div>
 
-                  {/* LINKS */}
-                  <div className="flex gap-4">
-                    <a
-                      href={project.link}
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-lg transition-all duration-300"
-                    >
-                      View Project
-                      <ExternalLink size={18} />
-                    </a>
-                    <a
-                      href={project.github}
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-lg border border-white/20 transition-all duration-300"
-                    >
-                      View Code
-                      <Github size={18} />
-                    </a>
+                    {/* TECH TAGS */}
+                    <div className="flex flex-wrap gap-2 mb-8">
+                      {project.tech.map((t, idx) => (
+                        <span
+                          key={idx}
+                          className="inline-block px-4 py-2 bg-yellow-500/20 border border-yellow-400/30 rounded-full text-yellow-300 text-sm font-medium"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* LINKS */}
+                    <div className="flex gap-4">
+                      <a
+                        href={project.link}
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-lg transition-all duration-300"
+                      >
+                        View Project
+                        <ExternalLink size={18} />
+                      </a>
+                      <a
+                        href={project.github}
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-lg border border-white/20 transition-all duration-300"
+                      >
+                        View Code
+                        <Github size={18} />
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* OTHER PROJECTS */}
         {otherProjects.length > 0 && (
@@ -183,16 +174,11 @@ export default function Projects() {
             <div className="space-y-0">
               {otherProjects.map((project, i) => (
                 <div
-                  key={i}
-                  className={`group bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-500 hover:bg-white/10 hover:border-yellow-400/30 hover:-translate-y-1 ${
-                    isVisible
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 translate-y-10"
-                  }`}
+                  key={project.id}
+                  className={`group bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-500 hover:bg-white/10 hover:border-yellow-400/30 hover:-translate-y-1 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
                   style={{ transitionDelay: `${(featuredProjects.length + i) * 150}ms`, marginBottom: '6rem' }}
                 >
                   <div className="p-8">
-                    {/* TITLE & IMAGE */}
                     <div className="flex items-start gap-4 mb-4">
                       <div className="text-4xl flex-shrink-0">{project.image}</div>
                       <div className="flex-1">
@@ -206,7 +192,6 @@ export default function Projects() {
                       {project.desc}
                     </p>
 
-                    {/* TECH TAGS */}
                     <div className="flex flex-wrap gap-2 mb-6">
                       {project.tech.map((t, idx) => (
                         <span
@@ -218,7 +203,6 @@ export default function Projects() {
                       ))}
                     </div>
 
-                    {/* LINKS */}
                     <div className="flex gap-3">
                       <a
                         href={project.link}
@@ -242,27 +226,24 @@ export default function Projects() {
           </div>
         )}
 
+        {/* EMPTY STATE */}
+        {mappedProjects.length === 0 && (
+          <div className="text-center py-20">
+            <p className="text-slate-400 text-lg">No projects yet. Check back soon!</p>
+          </div>
+        )}
+
       </div>
 
-      {/* ANIMATIONS */}
       <style>{`
         @keyframes blob {
           0%, 100% { transform: translate(0, 0) scale(1); }
           33% { transform: translate(30px, -50px) scale(1.1); }
           66% { transform: translate(-20px, 20px) scale(0.9); }
         }
-
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
+        .animate-blob { animation: blob 7s infinite; }
+        .animation-delay-2000 { animation-delay: 2s; }
+        .animation-delay-4000 { animation-delay: 4s; }
       `}</style>
     </section>
   );
