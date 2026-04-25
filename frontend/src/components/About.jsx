@@ -40,7 +40,7 @@ export default function About() {
   return (
     <section 
       className="relative min-h-screen flex items-start justify-center overflow-hidden px-6 lg:px-24"
-      style={{ paddingTop: '120px' }}
+      style={{ paddingTop: '125px' }}
     >
 
       {/* BLOBS */}
@@ -73,7 +73,7 @@ export default function About() {
           </div>
 
           <div className={`lg:col-span-2 transition-all duration-1000 delay-300 ${isVisible ? "opacity-100" : "opacity-0 translate-x-20"}`}>
-            <img src="/C12.png" className="animate-float" />
+            <img src="/C55.png" className="animate-float" />
           </div>
         </div>
 
