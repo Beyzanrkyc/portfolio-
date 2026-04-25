@@ -18,14 +18,15 @@ export default function Blog() {
       .then(res => res.json())
       .then(data => {
         // Map backend fields to what your UI expects
-        const mapped = data.map(post => ({
-          ...post,
-          excerpt: post.summary,
-          readTime: post.readTime || 5,
-          image: '📝',
-          category: post.tags?.[0] || 'Insights',
-          featured: post.featured || false,
-        }))
+      const mapped = data.map((post) => ({
+        ...post,
+        date: post.date || post.createdAt || post.publishedAt,
+        excerpt: post.summary,
+        readTime: post.readTime || 5,
+        image: "📝",
+        category: post.tags?.[0] || "Insights",
+        featured: post.featured || false
+      }));
         setBlogPosts(mapped)
         setLoading(false)
       })
@@ -60,9 +61,18 @@ export default function Blog() {
   const featuredPost = blogPosts.find(post => post.featured)
 
   const formatDate = (dateString) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
-  }
+    if (!dateString) return "No date";
+
+    const date = new Date(dateString);
+
+    if (isNaN(date)) return "No date";
+
+    return date.toLocaleDateString("en-GB", {
+      year: "numeric",
+      month: "short",
+      day: "numeric"
+    });
+  };
 
   if (loading) return (
     <section className="relative min-h-screen flex items-center justify-center">
@@ -81,7 +91,7 @@ export default function Blog() {
       <div className="relative z-10 w-full max-w-6xl">
 
         {/* HEADER */}
-        <div className={`mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ paddingTop: '12rem' }}>
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
             <span className="text-yellow-400">Thoughts</span> & Insights
           </h1>
@@ -91,7 +101,7 @@ export default function Blog() {
         </div>
 
         {/* SEARCH & FILTER */}
-        <div className={`mb-16 transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`mb-16 transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ marginBottom: '3rem' }}>
           {/* SEARCH BAR */}
           <div className="relative mb-8">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400" size={20} />
@@ -125,7 +135,7 @@ export default function Blog() {
 
         {/* FEATURED POST */}
         {selectedCategory === 'All' && searchQuery === '' && featuredPost && (
-          <div className={`mb-20 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className={`mb-20 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ marginBottom: '6rem' }}>
             <div className="relative bg-gradient-to-br from-yellow-500/10 via-transparent to-yellow-400/5 border border-yellow-500/20 rounded-2xl overflow-hidden group hover:border-yellow-400/40 transition-all duration-300">
               
               {/* FEATURED BADGE */}
@@ -184,7 +194,7 @@ export default function Blog() {
         )}
 
         {/* ARTICLES GRID */}
-        <div ref={articlesRef}>
+        <div ref={articlesRef} style={{ marginBottom: '9rem' }}>
           <div className={`transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             {filteredPosts.length > 0 ? (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -251,7 +261,7 @@ export default function Blog() {
         </div>
 
         {/* NEWSLETTER SECTION */}
-        <div className={`mt-24 bg-gradient-to-r from-yellow-500/10 to-yellow-400/5 border border-yellow-500/20 rounded-2xl p-8 md:p-12 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`mt-24 bg-gradient-to-r from-yellow-500/10 to-yellow-400/5 border border-yellow-500/20 rounded-2xl p-8 md:p-12 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ marginBottom: '9rem' }}>
           <div className="max-w-2xl">
             <h3 className="text-2xl font-bold text-white mb-3">Stay Updated</h3>
             <p className="text-slate-300 mb-6">
