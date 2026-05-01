@@ -11,6 +11,8 @@ import ContactPage from './pages/ContactPage'
 import BlogPage from './pages/BlogPage'
 import ResumePage from './pages/ResumePage'
 import AdminPage from './pages/AdminPage'
+import BlogPostPage from './pages/BlogPostPage'
+import ProjectPage from './pages/ProjectPage'
 
 function Layout() {
   const location = useLocation()
@@ -25,8 +27,10 @@ function Layout() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/projects/:id" element={<ProjectPage />} />
           <Route path="/skills" element={<SkillsPage />} />
           <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:id" element={<BlogPostPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/admin" element={<AdminPage />} />
         </Routes>

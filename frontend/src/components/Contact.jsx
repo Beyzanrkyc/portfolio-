@@ -105,7 +105,7 @@ export default function Contact() {
       <div className="relative z-10 w-full max-w-6xl">
 
         {/* HEADER */}
-        <div className={`max-w-2xl mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0 translate-y-10'}`} style={{ marginBottom: '3rem' }}>
+        <div className={`max-w-2xl mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0 translate-y-10'}`} style={{ marginBottom: '8rem' }}>
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
             Let's <span className="text-yellow-400">Connect</span>
           </h1>

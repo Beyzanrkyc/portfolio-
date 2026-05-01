@@ -6,4 +6,5 @@ export class CreateProjectDto {
   liveUrl?: string;
   technologies?: string[];
   published?: boolean;
+  featured?: boolean;
 }

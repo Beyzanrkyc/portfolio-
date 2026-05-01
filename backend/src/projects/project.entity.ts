@@ -26,6 +26,9 @@ export class Project {
   @Column({ default: true })
   published: boolean;
 
+  @Column({ default: false })
+  featured: boolean;
+
   @CreateDateColumn()
   createdAt: Date;
 

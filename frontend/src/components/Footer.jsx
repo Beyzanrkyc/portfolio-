@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -6,14 +7,14 @@ export default function Footer() {
   const [status, setStatus] = useState(null)
 
   const footerLinks = [
-    { label: 'Home', href: '#home' },
-    { label: 'About', href: '#about' },
-    { label: 'Projects', href: '#projects' },
-    { label: 'Skills', href: '#skills' },
-    { label: 'Blog', href: '#blog' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Home', href: '/' },
+    { label: 'About', href: '/about' },
+    { label: 'Projects', href: '/projects' },
+    { label: 'Skills', href: '/skills' },
+    { label: 'Blog', href: '/blog' },
+    { label: 'Contact', href: '/contact' },
   ]
-  
+
   const handleSubscribe = async (e) => {
     e.preventDefault()
     setStatus('loading')
@@ -62,12 +63,12 @@ export default function Footer() {
             <ul className="space-y-2">
               {footerLinks.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.href}
                     className="text-slate-400 hover:text-yellow-400 transition-colors duration-300 text-sm"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -124,10 +125,22 @@ export default function Footer() {
             </p>
 
             <div className="flex gap-6">
-              <span className="text-slate-400 hover:text-yellow-400 cursor-pointer">🐙</span>
-              <span className="text-slate-400 hover:text-yellow-400 cursor-pointer">💼</span>
-              <span className="text-slate-400 hover:text-yellow-400 cursor-pointer">𝕏</span>
-              <span className="text-slate-400 hover:text-yellow-400 cursor-pointer">📧</span>
+              <a href="https://github.com/Beyzanrkyc" target="_blank" rel="noopener noreferrer"
+                className="text-slate-400 hover:text-yellow-400 transition-colors duration-300 text-xl">
+                🐙
+              </a>
+              <a href="https://www.linkedin.com/in/beyzanurkayaci/" target="_blank" rel="noopener noreferrer"
+                className="text-slate-400 hover:text-yellow-400 transition-colors duration-300 text-xl">
+                💼
+              </a>
+              <a href="https://www.instagram.com/beyzanrkycc/" target="_blank" rel="noopener noreferrer"
+                className="text-slate-400 hover:text-yellow-400 transition-colors duration-300 text-xl">
+                📸
+              </a>
+              <a href="mailto:beyzanurkyc.bk@gmail.com"
+                className="text-slate-400 hover:text-yellow-400 transition-colors duration-300 text-xl">
+                📧
+              </a>
             </div>
 
             <p className="text-slate-500 text-xs">

@@ -7,17 +7,20 @@ import { CreatePostDto } from './blog.dto';
 export class BlogController {
   constructor(private blogService: BlogService) {}
 
-  // Public
   @Get()
   findPublished() {
     return this.blogService.findPublished();
   }
 
-  // Admin only below
   @Get('all')
   @UseGuards(AuthGuard('jwt'))
   findAll() {
     return this.blogService.findAll();
+  }
+  
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.blogService.findOne(+id);
   }
 
   @Post()

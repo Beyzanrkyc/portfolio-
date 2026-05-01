@@ -18,6 +18,11 @@ export class ProjectsController {
     return this.projectsService.findAll();
   }
 
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.projectsService.findOne(+id);
+  }
+
   @Post()
   @UseGuards(AuthGuard('jwt'))
   create(@Body() dto: CreateProjectDto) {

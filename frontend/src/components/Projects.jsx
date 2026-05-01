@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom'
 import { ExternalLink, Github, Code2, Zap, Award, TrendingUp } from "lucide-react";
 
 const API = 'http://localhost:3000'
@@ -7,6 +8,7 @@ export default function Projects() {
   const [isVisible, setIsVisible] = useState(false);
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
 
   useEffect(() => {
     setIsVisible(true);
@@ -32,8 +34,6 @@ export default function Projects() {
     link: p.liveUrl || '#',
     github: p.githubUrl || '#',
     image: '🚀',
-    desc: p.description,
-    fullDesc: p.description,
   }))
 
   const featuredProjects = mappedProjects.filter(p => p.featured);
@@ -55,7 +55,7 @@ export default function Projects() {
       <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-yellow-600 rounded-full blur-3xl opacity-10 animate-blob animation-delay-2000"></div>
       <div className="absolute top-1/2 right-0 w-96 h-96 bg-yellow-500 rounded-full blur-3xl opacity-5 animate-blob animation-delay-4000"></div>
 
-      <div className="relative z-10 w-full max-w-4xl">
+      <div className="relative z-10 w-full max-w-6xl">
 
         {/* HEADER */}
         <div
@@ -107,7 +107,8 @@ export default function Projects() {
               {featuredProjects.map((project, i) => (
                 <div
                   key={project.id}
-                  className={`group relative bg-gradient-to-br from-yellow-500/10 via-transparent to-yellow-400/5 border border-yellow-500/20 rounded-2xl overflow-hidden transition-all duration-1000 hover:border-yellow-400/40 hover:shadow-lg hover:shadow-yellow-500/10 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+                  onClick={() => navigate(`/projects/${project.id}`)}
+                  className={`cursor-pointer group relative bg-gradient-to-br from-yellow-500/10 via-transparent to-yellow-400/5 border border-yellow-500/20 rounded-2xl overflow-hidden transition-all duration-1000 hover:border-yellow-400/40 hover:shadow-lg hover:shadow-yellow-500/10 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
                   style={{ transitionDelay: `${i * 200}ms`, marginBottom: '6rem' }}
                 >
                   {/* FEATURED BADGE */}
@@ -125,9 +126,6 @@ export default function Projects() {
                         <h3 className="text-3xl font-bold text-white mb-2 group-hover:text-yellow-300 transition-colors">
                           {project.title}
                         </h3>
-                        <p className="text-slate-300 text-lg leading-relaxed">
-                          {project.fullDesc}
-                        </p>
                       </div>
                     </div>
 
@@ -144,21 +142,29 @@ export default function Projects() {
                     </div>
 
                     {/* LINKS */}
-                    <div className="flex gap-4">
-                      <a
-                        href={project.link}
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-lg transition-all duration-300"
-                      >
-                        View Project
-                        <ExternalLink size={18} />
-                      </a>
-                      <a
-                        href={project.github}
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-lg border border-white/20 transition-all duration-300"
-                      >
-                        View Code
-                        <Github size={18} />
-                      </a>
+                    <div className="flex items-center gap-6">
+                      {project.link && project.link !== '#' && (
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={e => e.stopPropagation()}
+                          className="inline-flex items-center gap-1 text-yellow-400 hover:text-yellow-300 font-semibold text-sm transition-colors"
+                        >
+                          View Project <ExternalLink size={14} />
+                        </a>
+                      )}
+                      {project.github && project.github !== '#' && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={e => e.stopPropagation()}
+                          className="inline-flex items-center gap-2 px-5 py-2 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-lg border border-white/20 transition-all duration-300 text-sm"
+                        >
+                          <Github size={16} /> View Code
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -175,49 +181,55 @@ export default function Projects() {
               {otherProjects.map((project, i) => (
                 <div
                   key={project.id}
-                  className={`group bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-500 hover:bg-white/10 hover:border-yellow-400/30 hover:-translate-y-1 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-                  style={{ transitionDelay: `${(featuredProjects.length + i) * 150}ms`, marginBottom: '6rem' }}
+                  onClick={() => navigate(`/projects/${project.id}`)}
+                  className={`cursor-pointer group bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-500 hover:bg-white/10 hover:border-yellow-400/30 hover:-translate-y-1 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+                  style={{ transitionDelay: `${(featuredProjects.length + i) * 150}ms`, marginBottom: '3rem' }}
                 >
                   <div className="p-8">
                     <div className="flex items-start gap-4 mb-4">
                       <div className="text-4xl flex-shrink-0">{project.image}</div>
                       <div className="flex-1">
-                        <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-yellow-300 transition-colors">
+                        <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-yellow-300 transition-colors">
                           {project.title}
                         </h3>
+                        {/* TECH TAGS */}
+                        <div className="flex flex-wrap gap-2">
+                          {project.tech.map((t, idx) => (
+                            <span
+                              key={idx}
+                              className="text-xs px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded-full text-yellow-400"
+                            >
+                              {t}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </div>
 
-                    <p className="text-slate-400 mb-6 leading-relaxed">
-                      {project.desc}
-                    </p>
-
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {project.tech.map((t, idx) => (
-                        <span
-                          key={idx}
-                          className="text-xs px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded-full text-yellow-400"
+                    {/* LINKS */}
+                    <div className="flex items-center gap-6 mt-4">
+                      {project.link && project.link !== '#' && (
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={e => e.stopPropagation()}
+                          className="inline-flex items-center gap-1 text-yellow-400 hover:text-yellow-300 font-semibold text-sm transition-colors"
                         >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="flex gap-3">
-                      <a
-                        href={project.link}
-                        className="inline-flex items-center gap-1 text-yellow-400 hover:text-yellow-300 font-semibold transition-colors"
-                      >
-                        View Project
-                        <ExternalLink size={16} />
-                      </a>
-                      <a
-                        href={project.github}
-                        className="inline-flex items-center gap-1 text-slate-400 hover:text-yellow-400 font-semibold transition-colors"
-                      >
-                        Code
-                        <Github size={16} />
-                      </a>
+                          View Project <ExternalLink size={14} />
+                        </a>
+                      )}
+                      {project.github && project.github !== '#' && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={e => e.stopPropagation()}
+                          className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-lg border border-white/20 transition-all duration-300 text-sm"
+                        >
+                          <Github size={14} /> Code
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>

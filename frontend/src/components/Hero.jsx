@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     setIsVisible(true)
@@ -17,7 +19,6 @@ export default function Hero() {
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-yellow-600 rounded-full blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
       <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-yellow-300 rounded-full blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
 
-      {/* CONTENT CONTAINER */}
       <div className="relative z-10 w-full max-w-6xl">
         <div className="grid lg:grid-cols-5 items-center gap-12 lg:gap-16">
 
@@ -43,19 +44,21 @@ export default function Hero() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <a
-                href="#projects"
-                className="bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-lg hover:shadow-yellow-500/30 inline-block text-center"
+
+              <button
+                onClick={() => navigate('/projects')}
+                className="bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-lg hover:shadow-yellow-500/30 text-center"
               >
                 View My Work
-              </a>
+              </button>
 
-              <a
-                href="#contact"
-                className="border border-yellow-500 text-yellow-400 hover:bg-yellow-500/10 px-6 py-3 rounded-lg font-medium transition-all duration-300 inline-block text-center"
+              <button
+                onClick={() => navigate('/contact')}
+                className="border border-yellow-500 text-yellow-400 hover:bg-yellow-500/10 px-6 py-3 rounded-lg font-medium transition-all duration-300 text-center"
               >
                 Get in Touch
-              </a>
+              </button>
+
             </div>
           </div>
 
