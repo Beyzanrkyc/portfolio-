@@ -6,6 +6,7 @@ import { NewsletterModule } from './newsletter/newsletter.module';
 import { BlogModule } from './blog/blog.module';
 import { ProjectsModule } from './projects/projects.module';
 import { AuthModule } from './auth/auth.module';
+import { UploadModule } from './upload/upload.module';
 import { Post } from './blog/post.entity';
 import { Project } from './projects/project.entity';
 
@@ -16,13 +17,15 @@ import { Project } from './projects/project.entity';
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => ({
         type: 'postgres',
+        url: process.env.DATABASE_URL || undefined,
         host: config.get('DB_HOST'),
         port: +config.get<number>('DB_PORT'),
         username: config.get('DB_USERNAME'),
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_NAME'),
         entities: [Post, Project],
-        synchronize: true, // auto creates tables, disable in production
+        synchronize: true,
+        ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false,
       }),
       inject: [ConfigService],
     }),
@@ -31,6 +34,7 @@ import { Project } from './projects/project.entity';
     BlogModule,
     ProjectsModule,
     AuthModule,
+    UploadModule,
   ],
 })
 export class AppModule {}
