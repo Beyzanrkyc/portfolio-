@@ -44,7 +44,7 @@ export default function Contact() {
     setIsLoading(true)
 
     try {
-      const res = await fetch('http://localhost:3000/contact', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
