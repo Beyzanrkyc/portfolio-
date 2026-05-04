@@ -12,7 +12,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'http://localhost:5173',
-      'https://your-vercel-url.vercel.app',
+      'https://portfolio-web-coral-seven.vercel.app',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
