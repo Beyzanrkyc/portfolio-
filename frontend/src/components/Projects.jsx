@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import { ExternalLink, Github, Code2, Zap, Award, TrendingUp } from "lucide-react";
 
-const API = 'http://localhost:3000'
+const API = import.meta.env.VITE_API_URL
 
 export default function Projects() {
   const [isVisible, setIsVisible] = useState(false);

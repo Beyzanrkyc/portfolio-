@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import RichTextEditor from './RichTextEditor'
 
-const API = 'http://localhost:3000'
+const API = import.meta.env.VITE_API_URL
 
 export default function AdminBlog({ token }) {
   const [posts, setPosts] = useState([])

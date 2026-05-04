@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Calendar, Clock, ArrowLeft } from 'lucide-react'
 
-const API = 'http://localhost:3000'
+const API = import.meta.env.VITE_API_URL
 
 export default function BlogPostPage() {
   const { id } = useParams()
