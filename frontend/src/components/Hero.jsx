@@ -43,7 +43,7 @@ export default function Hero() {
               Python, SQL, Django, React, and modern generative AI technologies.
             </p>
 
-            <div className="p-10px flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
 
               <button
                 onClick={() => navigate('/projects')}
