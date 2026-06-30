@@ -4,9 +4,9 @@
 
 /* RESET */
 * {
-  margin: 0;
-  padding: 50px;
   box-sizing: border-box;
+  margin: 0;
+  padding: 30px;
 }
 
 /* SMOOTH SCROLL */
