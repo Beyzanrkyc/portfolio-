@@ -20,7 +20,11 @@ import { Project } from './projects/project.entity';
         url: config.get('DATABASE_URL'),
         entities: [Post, Project],
         synchronize: true,
-        ssl: { rejectUnauthorized: false },
+        ssl: config
+          .get('DATABASE_URL')
+          ?.includes('sslmode=require')
+          ? { rejectUnauthorized: false }
+          : false,
       }),
       inject: [ConfigService],
     }),
